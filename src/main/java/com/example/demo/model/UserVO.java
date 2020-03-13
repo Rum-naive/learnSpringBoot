@@ -19,5 +19,5 @@ public class UserVO {
     private String userPwd;         //用户密码
     private Long managerId;          //用户领导ID
     private Date loginTime;         //登录时间
-    private List<UserVO> employees;   //管理的员工
+    private List<User> employees;   //管理的员工
 }

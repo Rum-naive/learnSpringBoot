@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * user
- * @author 
+ * @author Rum
  */
 public class User implements Serializable {
     private Long userId;
@@ -14,7 +14,7 @@ public class User implements Serializable {
 
     private String userPwd;
 
-    private Integer managerId;
+    private Long managerId;
 
     private Date loginTime;
 
@@ -46,11 +46,11 @@ public class User implements Serializable {
         this.userPwd = userPwd;
     }
 
-    public Integer getManagerId() {
+    public Long getManagerId() {
         return managerId;
     }
 
-    public void setManagerId(Integer managerId) {
+    public void setManagerId(Long managerId) {
         this.managerId = managerId;
     }
 

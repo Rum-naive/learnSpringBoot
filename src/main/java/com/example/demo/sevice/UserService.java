@@ -1,5 +1,6 @@
 package com.example.demo.sevice;
 
+import com.example.demo.generator.User;
 import com.example.demo.model.UserVO;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface UserService {
 
      UserVO getUser(Long id);
 
-     List<UserVO> getAll();
+     List<User> getAll();
 }

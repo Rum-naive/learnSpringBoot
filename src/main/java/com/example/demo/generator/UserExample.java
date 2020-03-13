@@ -325,52 +325,52 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdEqualTo(Integer value) {
+        public Criteria andManagerIdEqualTo(Long value) {
             addCriterion("manager_id =", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdNotEqualTo(Integer value) {
+        public Criteria andManagerIdNotEqualTo(Long value) {
             addCriterion("manager_id <>", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdGreaterThan(Integer value) {
+        public Criteria andManagerIdGreaterThan(Long value) {
             addCriterion("manager_id >", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andManagerIdGreaterThanOrEqualTo(Long value) {
             addCriterion("manager_id >=", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdLessThan(Integer value) {
+        public Criteria andManagerIdLessThan(Long value) {
             addCriterion("manager_id <", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdLessThanOrEqualTo(Integer value) {
+        public Criteria andManagerIdLessThanOrEqualTo(Long value) {
             addCriterion("manager_id <=", value, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdIn(List<Integer> values) {
+        public Criteria andManagerIdIn(List<Long> values) {
             addCriterion("manager_id in", values, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdNotIn(List<Integer> values) {
+        public Criteria andManagerIdNotIn(List<Long> values) {
             addCriterion("manager_id not in", values, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdBetween(Integer value1, Integer value2) {
+        public Criteria andManagerIdBetween(Long value1, Long value2) {
             addCriterion("manager_id between", value1, value2, "managerId");
             return (Criteria) this;
         }
 
-        public Criteria andManagerIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andManagerIdNotBetween(Long value1, Long value2) {
             addCriterion("manager_id not between", value1, value2, "managerId");
             return (Criteria) this;
         }

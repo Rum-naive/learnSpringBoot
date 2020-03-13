@@ -1,6 +1,7 @@
 package com.example.demo.sevice;
 
 import com.example.demo.generator.User;
+import com.example.demo.generator.UserExample;
 import com.example.demo.generator.UserMapper;
 import com.example.demo.model.UserVO;
 import com.example.demo.utils.DozerUtils;
@@ -43,13 +44,18 @@ public class UserServiceImpl implements UserService{
     //查询
     @Override
     public UserVO getUser(Long id) {
-        return dozerMapper.map(userMapper.selectByPrimaryKey(id),UserVO.class);
+        UserVO userVO = dozerMapper.map(userMapper.selectByPrimaryKey(id),UserVO.class);
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andManagerIdEqualTo(userVO.getUserId());
+        List<User> users = userMapper.selectByExample(userExample);
+        userVO.setEmployees(users);
+        return userVO;
     }
 
     //查询所有
     @Override
-    public List<UserVO> getAll() {
+    public List<User> getAll() {
         List<User> users = userMapper.selectByExample(null);
-        return DozerUtils.mapList(users,UserVO.class);
+        return users;
     }
 }
