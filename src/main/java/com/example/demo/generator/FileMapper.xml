@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.generator.ArticleMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.generator.Article">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="author" jdbcType="VARCHAR" property="author" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
+<mapper namespace="com.example.demo.generator.FileMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.generator.File">
+    <id column="file_id" jdbcType="BIGINT" property="fileId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_size" jdbcType="DOUBLE" property="fileSize" />
+    <result column="file_type" jdbcType="VARCHAR" property="fileType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,15 +68,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, author, content, title, create_time
+    file_id, user_id, file_name, file_size, file_type, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.example.demo.generator.ArticleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.demo.generator.FileExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from article
+    from file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,79 +92,88 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from article
-    where id = #{id,jdbcType=INTEGER}
+    from file
+    where file_id = #{fileId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from article
-    where id = #{id,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from file
+    where file_id = #{fileId,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.generator.ArticleExample">
-    delete from article
+  <delete id="deleteByExample" parameterType="com.example.demo.generator.FileExample">
+    delete from file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.generator.Article" useGeneratedKeys="true">
-    insert into article (author, content, title, 
-      create_time)
-    values (#{author,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+  <insert id="insert" keyColumn="file_id" keyProperty="fileId" parameterType="com.example.demo.generator.File" useGeneratedKeys="true">
+    insert into file (user_id, file_name, file_size, 
+      file_type, create_time)
+    values (#{userId,jdbcType=BIGINT}, #{fileName,jdbcType=VARCHAR}, #{fileSize,jdbcType=DOUBLE}, 
+      #{fileType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.generator.Article" useGeneratedKeys="true">
-    insert into article
+  <insert id="insertSelective" keyColumn="file_id" keyProperty="fileId" parameterType="com.example.demo.generator.File" useGeneratedKeys="true">
+    insert into file
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="author != null">
-        author,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="content != null">
-        content,
+      <if test="fileName != null">
+        file_name,
       </if>
-      <if test="title != null">
-        title,
+      <if test="fileSize != null">
+        file_size,
+      </if>
+      <if test="fileType != null">
+        file_type,
       </if>
       <if test="createTime != null">
         create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="author != null">
-        #{author,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
+      <if test="fileName != null">
+        #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
+      <if test="fileSize != null">
+        #{fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.generator.ArticleExample" resultType="java.lang.Long">
-    select count(*) from article
+  <select id="countByExample" parameterType="com.example.demo.generator.FileExample" resultType="java.lang.Long">
+    select count(*) from file
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update article
+    update file
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.fileId != null">
+        file_id = #{record.fileId,jdbcType=BIGINT},
       </if>
-      <if test="record.author != null">
-        author = #{record.author,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
+      <if test="record.fileName != null">
+        file_name = #{record.fileName,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="record.fileSize != null">
+        file_size = #{record.fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="record.fileType != null">
+        file_type = #{record.fileType,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -174,40 +184,45 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update article
-    set id = #{record.id,jdbcType=INTEGER},
-      author = #{record.author,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
+    update file
+    set file_id = #{record.fileId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      file_name = #{record.fileName,jdbcType=VARCHAR},
+      file_size = #{record.fileSize,jdbcType=DOUBLE},
+      file_type = #{record.fileType,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.generator.Article">
-    update article
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.generator.File">
+    update file
     <set>
-      <if test="author != null">
-        author = #{author,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
+      <if test="fileName != null">
+        file_name = #{fileName,jdbcType=VARCHAR},
       </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
+      <if test="fileSize != null">
+        file_size = #{fileSize,jdbcType=DOUBLE},
+      </if>
+      <if test="fileType != null">
+        file_type = #{fileType,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where file_id = #{fileId,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.generator.Article">
-    update article
-    set author = #{author,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      title = #{title,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.generator.File">
+    update file
+    set user_id = #{userId,jdbcType=BIGINT},
+      file_name = #{fileName,jdbcType=VARCHAR},
+      file_size = #{fileSize,jdbcType=DOUBLE},
+      file_type = #{fileType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where file_id = #{fileId,jdbcType=BIGINT}
   </update>
 </mapper>

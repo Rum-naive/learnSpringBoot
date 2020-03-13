@@ -16,9 +16,9 @@ public class Swagger2 {
 
     private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("springboot利用swagger构建api文档")
-				.description("简单优雅的restfun风格")
-				.termsOfServiceUrl("http://www.zimug.com")
+				.title("基于Springboot+Vue的网盘系统的设计与实现")
+				.description("简单的restfun风格")
+				.termsOfServiceUrl("http://www.rum.com")
 				.version("1.0")
 				.build();
     }
