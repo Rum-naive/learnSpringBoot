@@ -16,4 +16,5 @@ public class FileVO {
     private Double fileSize;    //文件的大小
     private String fileType;    //文件的类型(文档或视频)
     private Date createTime;    //文件上传的时间
+    private String filePath;    //文件保存路径
 }

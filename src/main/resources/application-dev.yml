@@ -10,7 +10,12 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-
+  servlet:
+    multipart:
+      # Single file max size
+      max-file-size: 50MB
+      # All files max size
+      max-request-size: 50MB
 #mybatis:
 #  mapper-locations: classpath:generator/*.xml
 logging:
@@ -20,3 +25,7 @@ logging:
 mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
+
+uploadFile:
+  resourceHandler: /uploadFiles/**
+  location: D:/uploadFiles

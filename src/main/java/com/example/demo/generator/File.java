@@ -5,7 +5,7 @@ import java.util.Date;
 
 /**
  * file
- * rum@author
+ * @author 
  */
 public class File implements Serializable {
     private Long fileId;
@@ -19,6 +19,8 @@ public class File implements Serializable {
     private String fileType;
 
     private Date createTime;
+
+    private String filePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -70,6 +72,14 @@ public class File implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -87,7 +97,8 @@ public class File implements Serializable {
             && (this.getFileName() == null ? other.getFileName() == null : this.getFileName().equals(other.getFileName()))
             && (this.getFileSize() == null ? other.getFileSize() == null : this.getFileSize().equals(other.getFileSize()))
             && (this.getFileType() == null ? other.getFileType() == null : this.getFileType().equals(other.getFileType()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getFilePath() == null ? other.getFilePath() == null : this.getFilePath().equals(other.getFilePath()));
     }
 
     @Override
@@ -100,6 +111,7 @@ public class File implements Serializable {
         result = prime * result + ((getFileSize() == null) ? 0 : getFileSize().hashCode());
         result = prime * result + ((getFileType() == null) ? 0 : getFileType().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getFilePath() == null) ? 0 : getFilePath().hashCode());
         return result;
     }
 
@@ -115,6 +127,7 @@ public class File implements Serializable {
         sb.append(", fileSize=").append(fileSize);
         sb.append(", fileType=").append(fileType);
         sb.append(", createTime=").append(createTime);
+        sb.append(", filePath=").append(filePath);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
