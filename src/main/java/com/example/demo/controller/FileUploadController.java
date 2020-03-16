@@ -2,12 +2,20 @@ package com.example.demo.controller;
 
 import com.example.demo.model.FileVO;
 import com.example.demo.sevice.FileService;
+import com.example.demo.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +25,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.Map;
-
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
-@Controller
+@RestController
+@RequestMapping("/rest")
 public class FileUploadController {
     //上传路径
     private static String UPLOAD_PATH = "File/image/upload";
@@ -29,20 +36,19 @@ public class FileUploadController {
     @Resource(name = "fileServiceImpl")
     FileService fileService;
 
-    @RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/uploadImage/{id}", method = POST)
     public String uploadImage(HttpServletRequest request,@PathVariable Long id) {
         try {
-            MultipartFile image = ((MultipartHttpServletRequest) request).getFile("file");
+            MultipartFile fil = ((MultipartHttpServletRequest) request).getFile("file");
             //获取文件名称
-            String name = image.getOriginalFilename();
+            String name = fil.getOriginalFilename();
             //获取文件大小
-            Double size = (double)image.getSize();
+            Double size = (double)fil.getSize();
             // 获取文件后缀名 .XX
             int suffixIndex = name.lastIndexOf(".");
             String fileSuffix = name.substring(suffixIndex);
             //inputStream
-            InputStream inputStream = image.getInputStream();
+            InputStream inputStream = fil.getInputStream();
             // 获得客户端发送请求的完整url
             String url = request.getRequestURL().toString();
             // 获得去除接口前的url
@@ -78,13 +84,20 @@ public class FileUploadController {
         }
     }
 
-    @GetMapping("/getImage/{name}")
-    public void getImage(HttpServletResponse response, @PathVariable("name") String name) throws IOException {
-        response.setContentType("image/jpeg;charset=utf-8");
-        response.setHeader("Content-Disposition", "inline; filename=girls.png");
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(Files.readAllBytes(Paths.get(UPLOAD_PATH).resolve(name)));
-        outputStream.flush();
-        outputStream.close();
+    @RequestMapping(value = "/download", method = GET)
+    public void download(@RequestBody FileVO fileVO) throws IOException {
+        String filename = fileVO.getFileName();
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = requestAttributes.getResponse();
+        // 设置信息给客户端不解析
+        String type = new MimetypesFileTypeMap().getContentType(filename);
+        // 设置contenttype，即告诉客户端所发送的数据属于什么类型
+        response.setHeader("Content-type",type);
+        // 设置编码
+        String hehe = new String(filename.getBytes("utf-8"), "iso-8859-1");
+        // 设置扩展头，当Content-Type 的类型为要下载的类型时 , 这个信息头会告诉浏览器这个文件的名字和类型。
+        response.setHeader("Content-Disposition", "attachment;filename=" + hehe);
+        FileUtil.download(filename, response);
     }
+
 }

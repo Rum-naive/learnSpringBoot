@@ -26,6 +26,3 @@ mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
 
-uploadFile:
-  resourceHandler: /uploadFiles/**
-  location: D:/uploadFiles
