@@ -16,4 +16,6 @@ public interface UserService {
      UserVO getUser(Long id);
 
      List<User> getAll();
+
+     User Login(Long id,String Pwd);
 }

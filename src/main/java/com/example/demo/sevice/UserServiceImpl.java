@@ -58,4 +58,14 @@ public class UserServiceImpl implements UserService{
         List<User> users = userMapper.selectByExample(null);
         return users;
     }
+
+    //登录
+    @Override
+    public User Login(Long id, String Pwd) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserIdEqualTo(id).andUserPwdEqualTo(Pwd);
+        User user = userMapper.selectByExample(userExample).get(0);
+
+        return user;
+    }
 }

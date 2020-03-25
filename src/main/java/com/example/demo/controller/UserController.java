@@ -62,4 +62,12 @@ public class UserController {
 
         return AjaxResponse.success(userService.getAll());
     }
+
+    //用户登录
+    @RequestMapping(value = "/login/{id}/{pwd}", method = GET, produces = "application/json")
+    public AjaxResponse Login(@PathVariable Long id,@PathVariable String pwd) {
+        System.out.println("id:"+id);
+        System.out.println("pwd:"+pwd);
+        return AjaxResponse.success(userService.Login(id,pwd));
+    }
 }
