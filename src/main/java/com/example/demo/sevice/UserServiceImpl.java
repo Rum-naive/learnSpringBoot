@@ -1,5 +1,7 @@
 package com.example.demo.sevice;
 
+import com.example.demo.config.exception.CustomException;
+import com.example.demo.config.exception.CustomExceptionType;
 import com.example.demo.generator.User;
 import com.example.demo.generator.UserExample;
 import com.example.demo.generator.UserMapper;
@@ -61,11 +63,15 @@ public class UserServiceImpl implements UserService{
 
     //登录
     @Override
-    public User Login(Long id, String Pwd) {
+    public User Login(Long id, String Pwd) throws CustomException {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUserIdEqualTo(id).andUserPwdEqualTo(Pwd);
-        User user = userMapper.selectByExample(userExample).get(0);
-
+        User user = new User();
+        try {
+            user = userMapper.selectByExample(userExample).get(0);
+        }catch (IndexOutOfBoundsException e){
+            throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"您输入的用户名或者密码错误，请确认后重新输入！");
+        }
         return user;
     }
 }

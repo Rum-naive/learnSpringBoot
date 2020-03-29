@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.exception.AjaxResponse;
+import com.example.demo.config.exception.CustomException;
+import com.example.demo.config.exception.CustomExceptionType;
 import com.example.demo.model.FileVO;
 import com.example.demo.sevice.FileService;
 import com.example.demo.utils.FileUtil;
@@ -29,7 +32,7 @@ public class FileUploadController {
     FileService fileService;
 
     @RequestMapping(value = "/uploadImage/{id}", method = POST)
-    public String uploadImage(HttpServletRequest request,@PathVariable Long id) {
+    public AjaxResponse uploadImage(HttpServletRequest request, @PathVariable Long id) {
         try {
             MultipartFile fil = ((MultipartHttpServletRequest) request).getFile("file");
             //获取文件名称
@@ -70,9 +73,9 @@ public class FileUploadController {
             fileVO.setFileType(fileSuffix);
             fileVO.setUserId(id);
             fileService.saveFile(fileVO);
-            return "上传成功";
+            return AjaxResponse.success();
         } catch (Exception e) {
-            return "上传失败";
+             throw new CustomException(CustomExceptionType.SYSTEM_ERROR,"上传失败");
         }
     }
 

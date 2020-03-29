@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.generator.File;
-import com.example.demo.model.AjaxResponse;
+import com.example.demo.config.exception.AjaxResponse;
 import com.example.demo.model.FileVO;
 import com.example.demo.sevice.FileService;
 import lombok.extern.slf4j.Slf4j;

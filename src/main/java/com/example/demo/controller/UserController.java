@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.AjaxResponse;
+import com.example.demo.config.exception.AjaxResponse;
+import com.example.demo.generator.User;
 import com.example.demo.model.UserVO;
 import com.example.demo.sevice.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -46,7 +47,7 @@ public class UserController {
 
         userService.updateUser(userVO);
 
-        return AjaxResponse.success(userVO);
+        return AjaxResponse.success();
     }
  
     //获取一个user，使用GET方法
@@ -64,10 +65,9 @@ public class UserController {
     }
 
     //用户登录
-    @RequestMapping(value = "/login/{id}/{pwd}", method = GET, produces = "application/json")
+    @RequestMapping(value = "/user/{id}/{pwd}", method = GET, produces = "application/json")
     public AjaxResponse Login(@PathVariable Long id,@PathVariable String pwd) {
-        System.out.println("id:"+id);
-        System.out.println("pwd:"+pwd);
-        return AjaxResponse.success(userService.Login(id,pwd));
+        User user = userService.Login(id,pwd);
+        return AjaxResponse.success();
     }
 }
