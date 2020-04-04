@@ -19,7 +19,6 @@ public class AjaxResponse {
         AjaxResponse resultBean = new AjaxResponse();
         resultBean.setIsok(false);
         resultBean.setCode(e.getCode());
-        System.out.println(e.getCode());
         if(e.getCode() == CustomExceptionType.USER_INPUT_ERROR.getCode()){
             resultBean.setMessage(e.getMessage());
         }else if(e.getCode() == CustomExceptionType.SYSTEM_ERROR.getCode()){

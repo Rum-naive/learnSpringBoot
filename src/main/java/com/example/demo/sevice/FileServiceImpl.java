@@ -1,9 +1,8 @@
 package com.example.demo.sevice;
 
-import com.example.demo.generator.File;
-import com.example.demo.generator.FileMapper;
-import com.example.demo.generator.User;
-import com.example.demo.generator.UserMapper;
+import com.example.demo.config.exception.CustomException;
+import com.example.demo.config.exception.CustomExceptionType;
+import com.example.demo.generator.*;
 import com.example.demo.model.FileVO;
 import com.example.demo.model.UserVO;
 import com.example.demo.utils.DozerUtils;
@@ -11,6 +10,7 @@ import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -45,8 +45,34 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
-    public List<FileVO> getAll() {
-        List<File> files = fileMapper.selectByExample(null);
+    public List<FileVO> getAll(Long id) {
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andUserIdEqualTo(id);
+        List<File> files = fileMapper.selectByExample(fileExample);
         return DozerUtils.mapList(files,FileVO.class);
+    }
+
+    @Override
+    public List<FileVO> getAllDoc(Long id) {
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andFileTypeEqualTo(".docx").andUserIdEqualTo(id);
+        List<File> docs = new ArrayList<File>();
+        docs = fileMapper.selectByExample(fileExample);
+        if (docs.isEmpty()){
+            throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"您未上传文档文件");
+        }
+        return DozerUtils.mapList(docs,FileVO.class);
+    }
+
+    @Override
+    public List<FileVO> getAllMp4(Long id) {
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andFileTypeEqualTo(".mp4").andUserIdEqualTo(id);
+        List<File> Mp4 = new ArrayList<File>();
+        Mp4 = fileMapper.selectByExample(fileExample);
+        if (Mp4.isEmpty()){
+            throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"您未上传视频文件");
+        }
+        return DozerUtils.mapList(Mp4,FileVO.class);
     }
 }

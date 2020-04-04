@@ -54,10 +54,24 @@ public class FileController {
         return AjaxResponse.success(fileService.getFile(id));
     }
 
-    //获取所有user，使用GET方法
-    @RequestMapping(value = "/file", method = GET, produces = "application/json")
-    public AjaxResponse getAll() {
+    //获取所有该用户file，使用GET方法
+    @RequestMapping(value = "/file/{used}", method = GET, produces = "application/json")
+    public AjaxResponse getAll(@PathVariable Long used) {
 
-        return AjaxResponse.success(fileService.getAll());
+        return AjaxResponse.success(fileService.getAll(used));
+    }
+
+    //获取所有该用户doc，使用GET方法
+    @RequestMapping(value = "/doc/{used}", method = GET, produces = "application/json")
+    public AjaxResponse getAllDoc(@PathVariable Long used) {
+
+        return AjaxResponse.success(fileService.getAllDoc(used));
+    }
+
+    //获取所有该用户mp4，使用GET方法
+    @RequestMapping(value = "/mp4/{used}", method = GET, produces = "application/json")
+    public AjaxResponse getAllMp4(@PathVariable Long used) {
+
+        return AjaxResponse.success(fileService.getAllMp4(used));
     }
 }

@@ -31,7 +31,7 @@ public class FileUploadController {
     @Resource(name = "fileServiceImpl")
     FileService fileService;
 
-    @RequestMapping(value = "/uploadImage/{id}", method = POST)
+    @RequestMapping(value = "/upload/{id}", method = POST)
     public AjaxResponse uploadImage(HttpServletRequest request, @PathVariable Long id) {
         try {
             MultipartFile fil = ((MultipartHttpServletRequest) request).getFile("file");
@@ -72,10 +72,14 @@ public class FileUploadController {
             fileVO.setFilePath(path);
             fileVO.setFileType(fileSuffix);
             fileVO.setUserId(id);
-            fileService.saveFile(fileVO);
-            return AjaxResponse.success();
+            if(fileSuffix.equals(".docx") || fileSuffix.equals(".mp4")){
+                fileService.saveFile(fileVO);
+                return AjaxResponse.success();
+            }else {
+                throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"上传的文件仅支持.doc和.mp4文件");
+            }
         } catch (Exception e) {
-             throw new CustomException(CustomExceptionType.SYSTEM_ERROR,"上传失败");
+             throw new CustomException(CustomExceptionType.USER_INPUT_ERROR,"上传失败,上传的文件仅支持.doc和.mp4文件");
         }
     }
 
