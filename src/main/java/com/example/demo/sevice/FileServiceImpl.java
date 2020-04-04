@@ -45,10 +45,8 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
-    public List<FileVO> getAll(Long id) {
-        FileExample fileExample = new FileExample();
-        fileExample.createCriteria().andUserIdEqualTo(id);
-        List<File> files = fileMapper.selectByExample(fileExample);
+    public List<FileVO> getAll() {
+        List<File> files = fileMapper.selectByExample(null);
         return DozerUtils.mapList(files,FileVO.class);
     }
 

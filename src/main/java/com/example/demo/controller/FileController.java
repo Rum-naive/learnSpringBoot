@@ -55,10 +55,10 @@ public class FileController {
     }
 
     //获取所有该用户file，使用GET方法
-    @RequestMapping(value = "/file/{used}", method = GET, produces = "application/json")
-    public AjaxResponse getAll(@PathVariable Long used) {
+    @RequestMapping(value = "/file", method = GET, produces = "application/json")
+    public AjaxResponse getAll() {
 
-        return AjaxResponse.success(fileService.getAll(used));
+        return AjaxResponse.success(fileService.getAll());
     }
 
     //获取所有该用户doc，使用GET方法

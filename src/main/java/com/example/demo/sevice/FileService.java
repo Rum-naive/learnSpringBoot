@@ -14,7 +14,7 @@ public interface FileService {
 
     FileVO getFile(Long id);
 
-    List<FileVO> getAll(Long id);
+    List<FileVO> getAll();
 
     List<FileVO> getAllDoc(Long id);
 
