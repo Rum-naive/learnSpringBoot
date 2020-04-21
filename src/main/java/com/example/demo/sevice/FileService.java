@@ -14,6 +14,8 @@ public interface FileService {
 
     FileVO getFile(Long id);
 
+    List<FileVO> getFileLike(String name);
+
     List<FileVO> getAll();
 
     List<FileVO> getAllDoc(Long id);

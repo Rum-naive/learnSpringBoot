@@ -22,7 +22,7 @@ public class UserController {
     @Resource(name = "userServiceImpl")
     UserService userService;
  
-    //增加一篇user ，使用POST方法
+    //增加一个user ，使用POST方法
     @RequestMapping(value = "/user", method = POST, produces = "application/json")
     public AjaxResponse saveUser(@RequestBody UserVO userVO) {
 
@@ -32,7 +32,7 @@ public class UserController {
     }
  
     
-    //删除一篇user，使用DELETE方法，参数是id
+    //删除一个user，使用DELETE方法，参数是id
     @RequestMapping(value = "/user/{id}", method = DELETE, produces = "application/json")
     public AjaxResponse deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
@@ -40,11 +40,10 @@ public class UserController {
         return AjaxResponse.success(id);
     }
  
-     //更新一篇user，使用PUT方法，以id为主键进行更新
+     //更新一个user，使用PUT方法，以id为主键进行更新
     @RequestMapping(value = "/user/{id}", method = PUT, produces = "application/json")
     public AjaxResponse updateUser(@PathVariable Long id, @RequestBody UserVO userVO) {
         userVO.setUserId(id);
-
         userService.updateUser(userVO);
 
         return AjaxResponse.success();
@@ -65,9 +64,15 @@ public class UserController {
     }
 
     //用户登录
-    @RequestMapping(value = "/user/{id}/{pwd}", method = GET, produces = "application/json")
-    public AjaxResponse Login(@PathVariable Long id,@PathVariable String pwd) {
-        User user = userService.Login(id,pwd);
+    @RequestMapping(value = "/user/login", method = GET, produces = "application/json")
+    public AjaxResponse Login(Long id,String password) {
+        UserVO user = userService.Login(id,password);
+        return AjaxResponse.success(user);
+    }
+
+    //用户退出
+    @RequestMapping(value = "/user/logout", method = POST, produces = "application/json")
+    public AjaxResponse logout() {
         return AjaxResponse.success();
     }
 }

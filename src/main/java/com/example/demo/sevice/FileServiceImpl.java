@@ -45,6 +45,15 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
+    public List<FileVO> getFileLike(String name) {
+        String query_name = "%" + name + "%";
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andFileNameLike(query_name);
+        List<File> query_like = fileMapper.selectByExample(fileExample);
+        return DozerUtils.mapList(query_like,FileVO.class);
+    }
+
+    @Override
     public List<FileVO> getAll() {
         List<File> files = fileMapper.selectByExample(null);
         return DozerUtils.mapList(files,FileVO.class);

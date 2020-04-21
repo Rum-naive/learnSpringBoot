@@ -20,4 +20,5 @@ public class UserVO {
     private Long managerId;          //用户领导ID
     private Date loginTime;         //登录时间
     private List<User> employees;   //管理的员工
+    private String token; //token
 }

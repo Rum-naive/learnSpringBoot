@@ -3,6 +3,9 @@ package com.example.demo.controller;
 import com.example.demo.config.exception.AjaxResponse;
 import com.example.demo.model.FileVO;
 import com.example.demo.sevice.FileService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
@@ -40,8 +45,7 @@ public class FileController {
     //更新一个file，使用PUT方法，以id为主键进行更新
     @RequestMapping(value = "/file/{id}", method = PUT, produces = "application/json")
     public AjaxResponse updateFile(@PathVariable Long id, @RequestBody FileVO fileVO) {
-        fileVO.setUserId(id);
-
+        fileVO.setFileId(id);
         fileService.updateFile(fileVO);
 
         return AjaxResponse.success(fileVO);
@@ -54,18 +58,36 @@ public class FileController {
         return AjaxResponse.success(fileService.getFile(id));
     }
 
-    //获取所有该用户file，使用GET方法
-    @RequestMapping(value = "/file", method = GET, produces = "application/json")
-    public AjaxResponse getAll() {
+    //模糊查询filename，使用GET方法
+    @RequestMapping(value = "/file/query/{name}", method = GET, produces = "application/json")
+    public AjaxResponse getFileLike(@PathVariable String name,int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<FileVO> list =fileService.getFileLike(name);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list);
+        return AjaxResponse.success(pageInfo);
+    }
 
-        return AjaxResponse.success(fileService.getAll());
+    //获取所有file，使用GET方法
+    @RequestMapping(value = "/file", method = GET, produces = "application/json")
+    public AjaxResponse getAll(int pageNum,int pageSize) {
+        List<FileVO> list1 =fileService.getAll();
+        int total = (int) new PageInfo<>(list1).getTotal();
+        PageHelper.startPage(pageNum,pageSize);
+        List<FileVO> list2 =fileService.getAll();
+        //PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list);
+        //System.out.println(total);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list2);
+        pageInfo.setTotal(total);
+        return AjaxResponse.success(pageInfo);
     }
 
     //获取所有该用户doc，使用GET方法
     @RequestMapping(value = "/doc/{used}", method = GET, produces = "application/json")
-    public AjaxResponse getAllDoc(@PathVariable Long used) {
-
-        return AjaxResponse.success(fileService.getAllDoc(used));
+    public AjaxResponse getAllDoc(@PathVariable Long used,int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<FileVO> list =fileService.getAllDoc(used);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list);
+        return AjaxResponse.success(pageInfo);
     }
 
     //获取所有该用户mp4，使用GET方法

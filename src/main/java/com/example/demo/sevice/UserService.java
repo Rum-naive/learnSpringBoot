@@ -17,5 +17,5 @@ public interface UserService {
 
      List<User> getAll();
 
-     User Login(Long id,String Pwd);
+     UserVO Login(Long id,String Pwd);
 }
