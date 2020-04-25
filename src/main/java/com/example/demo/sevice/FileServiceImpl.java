@@ -82,4 +82,13 @@ public class FileServiceImpl implements FileService{
         }
         return DozerUtils.mapList(Mp4,FileVO.class);
     }
+
+    @Override
+    public List<FileVO> getFileLikeById(String name, Long id) {
+        String query_name = "%" + name + "%";
+        FileExample fileExample = new FileExample();
+        fileExample.createCriteria().andFileNameLike(query_name).andUserIdEqualTo(id);
+        List<File> query_like = fileMapper.selectByExample(fileExample);
+        return DozerUtils.mapList(query_like,FileVO.class);
+    }
 }

@@ -2,10 +2,8 @@ package com.example.demo.sevice;
 
 import com.example.demo.config.exception.CustomException;
 import com.example.demo.config.exception.CustomExceptionType;
-import com.example.demo.generator.File;
-import com.example.demo.generator.User;
-import com.example.demo.generator.UserExample;
-import com.example.demo.generator.UserMapper;
+import com.example.demo.generator.*;
+import com.example.demo.model.FileVO;
 import com.example.demo.model.UserVO;
 import com.example.demo.utils.DozerUtils;
 import org.dozer.Mapper;
@@ -81,5 +79,31 @@ public class UserServiceImpl implements UserService{
         UserVO userVO = dozerMapper.map(user, UserVO.class);
         userVO.setToken(token);
         return userVO;
+    }
+
+    @Override
+    public List<User> getUserLike(String name,Long id) {
+        String query_name = "%" + name + "%";
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserNameLike(query_name).andManagerIdEqualTo(id);
+        List<User> query_like = userMapper.selectByExample(userExample);
+        return query_like;
+    }
+
+    @Override
+    public List<User> getEmps(Long id) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andManagerIdEqualTo(id);
+        List<User> users = userMapper.selectByExample(userExample);
+        return users;
+    }
+
+    @Override
+    public List<User> getUserLikeAll(String name) {
+        String query_name = "%" + name + "%";
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUserNameLike(query_name);
+        List<User> query_like = userMapper.selectByExample(userExample);
+        return query_like;
     }
 }

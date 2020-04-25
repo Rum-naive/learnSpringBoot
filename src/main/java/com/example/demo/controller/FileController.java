@@ -84,16 +84,33 @@ public class FileController {
     //获取所有该用户doc，使用GET方法
     @RequestMapping(value = "/doc/{used}", method = GET, produces = "application/json")
     public AjaxResponse getAllDoc(@PathVariable Long used,int pageNum,int pageSize) {
+        List<FileVO> list1 =fileService.getAllDoc(used);
+        int total = (int) new PageInfo<>(list1).getTotal();
         PageHelper.startPage(pageNum,pageSize);
-        List<FileVO> list =fileService.getAllDoc(used);
-        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list);
+        List<FileVO> list2 =fileService.getAllDoc(used);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list2);
+        pageInfo.setTotal(total);
         return AjaxResponse.success(pageInfo);
     }
 
     //获取所有该用户mp4，使用GET方法
     @RequestMapping(value = "/mp4/{used}", method = GET, produces = "application/json")
-    public AjaxResponse getAllMp4(@PathVariable Long used) {
+    public AjaxResponse getAllMp4(@PathVariable Long used,int pageNum,int pageSize) {
+        List<FileVO> list1 =fileService.getAllMp4(used);
+        int total = (int) new PageInfo<>(list1).getTotal();
+        PageHelper.startPage(pageNum,pageSize);
+        List<FileVO> list2 =fileService.getAllMp4(used);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list2);
+        pageInfo.setTotal(total);
+        return AjaxResponse.success(pageInfo);
+    }
 
-        return AjaxResponse.success(fileService.getAllMp4(used));
+    //模糊查询个人filename，使用GET方法
+    @RequestMapping(value = "/file/query/{name}/{id}", method = GET, produces = "application/json")
+    public AjaxResponse getFileLikeById(@PathVariable String name,@PathVariable Long id,int pageNum,int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<FileVO> list =fileService.getFileLikeById(name,id);
+        PageInfo<FileVO> pageInfo = new PageInfo<FileVO>(list);
+        return AjaxResponse.success(pageInfo);
     }
 }

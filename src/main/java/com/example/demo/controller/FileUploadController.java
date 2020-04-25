@@ -32,7 +32,7 @@ public class FileUploadController {
     FileService fileService;
 
     @RequestMapping(value = "/upload/{id}", method = POST)
-    public AjaxResponse uploadImage(HttpServletRequest request, @PathVariable Long id) {
+    public AjaxResponse uploadImage(HttpServletRequest request,@PathVariable Long id) {
         try {
             MultipartFile fil = ((MultipartHttpServletRequest) request).getFile("file");
             //获取文件名称
@@ -47,7 +47,7 @@ public class FileUploadController {
             // 获得客户端发送请求的完整url
             String url = request.getRequestURL().toString();
             // 获得去除接口前的url
-            String urlVal = url.replace("/uploadImage", "");
+            String urlVal = url.replace("/upload", "");
             // 目录路径
             Path directory = Paths.get(UPLOAD_PATH);
             // 判断目录是否存在，不存在创建
@@ -84,8 +84,8 @@ public class FileUploadController {
     }
 
     @RequestMapping(value = "/download", method = GET)
-    public void download(@RequestBody FileVO fileVO) throws IOException {
-        String filename = fileVO.getFileName();
+    public void download(String filename) throws IOException {
+        //String filename = "timg.jpg";
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletResponse response = requestAttributes.getResponse();
         // 设置信息给客户端不解析

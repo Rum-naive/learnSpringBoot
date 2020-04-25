@@ -21,4 +21,6 @@ public interface FileService {
     List<FileVO> getAllDoc(Long id);
 
     List<FileVO> getAllMp4(Long id);
+
+    List<FileVO> getFileLikeById(String name,Long id);
 }
